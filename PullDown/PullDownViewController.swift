@@ -184,7 +184,7 @@ class PullDownViewController: UIViewController {
             }
         }
         else {
-                if self.view.frame.origin.y > self.height / 2 {
+                if self.view.frame.maxY > self.height / 2 {
                     setDimmingViewHidden(hidden: false, finished: false)
                     snapToBottom()
                     delegate?.pullDownViewController(didChangeTo: .expanded)
