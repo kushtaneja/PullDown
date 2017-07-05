@@ -112,14 +112,30 @@ class PullDownViewController: UIViewController {
             superView.insertSubview(dimmingView, belowSubview: self.view)
             dimmingView.layer.backgroundColor = dimmingColor.cgColor
         }
-        
         snapToBottom()
         delegate?.pullDownViewController(didChangeTo: .expanded)
         handleView.setState(
             HandleView.HandleViewState(
                 for: .expanded), animated: true)
+      let snapTapGesture = UITapGestureRecognizer(target: self, action: #selector(self.didTapHandleView))
+      panArea.addGestureRecognizer(snapTapGesture)
     }
 
+  func didTapHandleView() {
+
+    if handleView.state == HandleView.HandleViewState(for: .collapsed) {
+      snapToBottom()
+      delegate?.pullDownViewController(didChangeTo: .expanded)
+      handleView.setState(
+        HandleView.HandleViewState(
+          for: .expanded), animated: true)
+    }
+    else {
+      snapToTop()
+      delegate?.pullDownViewController(didChangeTo: .collapsed)
+      handleView.setState(HandleView.HandleViewState(for: .collapsed), animated: true)
+    }
+  }
     func configureContainer() {
         let boundaryWidth = UIScreen.main.bounds.size.width
         container.addBoundary(withIdentifier: "upper" as NSCopying, from: CGPoint.init(x: 0, y: -height + minimumHeight), to: CGPoint(x: boundaryWidth, y: -height + minimumHeight))
